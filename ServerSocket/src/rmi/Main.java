@@ -4,6 +4,8 @@
  */
 package rmi;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,13 +16,20 @@ import java.util.logging.Logger;
 public class Main {
 
     
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         try {
             // TODO code application logic here
-            CoreImplementation compute = new CoreImplementation();
-            Skeleton<CoreInterface> skeleton = new Skeleton(CoreInterface.class, compute);
-            skeleton.start();
-        } catch (RMIException ex) {
+            CoreInterface compute = new CoreInterface();
+            NamingService.setNameServiceLocation("143.248.56.147:9999");
+            NamingService.register("8800/FileManager", compute);
+            
+            System.out.println("Do something else");
+            
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
